@@ -4,12 +4,16 @@ pipeline {
     stages {
         stage('rm-old') {
             steps {
-                sh('docker rmi jenkins-rpmbuild || true')
+                node('master') {
+                    sh('docker rmi jenkins-rpmbuild || true')
+                }
             }
         }
         stage('build-new') {
             steps {
-                sh('docker build -t jenkins-rpmbuild')
+                node('master') {
+                    sh('docker build -t jenkins-rpmbuild')
+                }
             }
         }
     }
