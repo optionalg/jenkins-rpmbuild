@@ -12,7 +12,7 @@ pipeline {
         stage('build-new') {
             steps {
                 node('master') {
-                    sh('docker build -t jenkins-rpmbuild')
+                    sh('docker build ./ -t jenkins-rpmbuild')
                 }
             }
         }
