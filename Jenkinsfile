@@ -1,5 +1,7 @@
 pipeline {
-    node('master') {
+    agent 'master'
+
+    stages {
         stage("rm-old") {
             sh('docker rmi jenkins-rpmbuild || true')
         }
