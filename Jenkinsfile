@@ -2,11 +2,15 @@ pipeline {
     agent none
 
     stages {
-        stage("rm-old") {
-            sh('docker rmi jenkins-rpmbuild || true')
+        stage('rm-old') {
+            steps {
+                sh('docker rmi jenkins-rpmbuild || true')
+            }
         }
-        stage("build-new") {
-            sh('docker build -t jenkins-rpmbuild')
+        stage('build-new') {
+            steps {
+                sh('docker build -t jenkins-rpmbuild')
+            }
         }
     }
 }
