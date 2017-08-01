@@ -5,20 +5,23 @@ pipeline {
         stage('rm-old') {
             steps {
                 node('master') {
+                    checkout scm
                     sh('docker rmi jenkins-rpmbuild || true')
                 }
             }
         }
         stage('parallel-demo') {
             steps {
-                parallel sles12sp2: {
+                parallel Dockerfile: {
                     node('master') {
-                        sh('pwd; ls -la')
+                        checkout scm
+                        sh('cat Dockerfile')
                     }
                 },
-                sles12sp3: {
+                Jenkinsfile: {
                     node('master') {
-                        sh('pwd; ls -la')
+                        checkout scm
+                        sh('cat Jenkinsfile')
                     }
                 }
             }
@@ -26,7 +29,6 @@ pipeline {
         stage('build-new') {
             steps {
                 node('master') {
-                    checkout scm
                     sh('ls -la ; docker build ./ -t jenkins-rpmbuild')
                 }
             }
