@@ -9,10 +9,26 @@ pipeline {
                 }
             }
         }
+        parallel {
+            stage('list-ws') {
+                steps {
+                    node('master') {
+                        sh('pwd; ls -la')
+                    }
+                }
+            }
+            stage('co-list-ws') {
+                steps {
+                    node('master') {
+                        checkout scm
+                        sh('pwd; ls -la')
+                    }
+                }
+            }
+        }
         stage('build-new') {
             steps {
                 node('master') {
-                    checkout scm
                     sh('ls -la ; docker build ./ -t jenkins-rpmbuild')
                 }
             }
