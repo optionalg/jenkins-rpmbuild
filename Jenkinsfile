@@ -25,7 +25,7 @@ pipeline {
         }
         stage 'build-new' {
             steps {
-                node('master' {
+                node 'master' {
                     checkout scm
                     sh 'ls -la ; docker build ./ -t jenkins-rpmbuild'
                 }
