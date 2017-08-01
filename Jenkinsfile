@@ -9,26 +9,22 @@ pipeline {
                 }
             }
         }
-        parallel {
-            stage('list-ws') {
-                steps {
-                    node('master') {
-                        sh('pwd; ls -la')
-                    }
+        stage('parallel-demo') {
+            parallel sles12sp2: {
+                node('master') {
+                    sh('This would be executed on sles12sp2, if we had a node for it:)')
                 }
-            }
-            stage('co-list-ws') {
-                steps {
-                    node('master') {
-                        checkout scm
-                        sh('pwd; ls -la')
-                    }
+            },
+            sles12sp3: {
+                node('master') {
+                    sh('This would be executed on sles12sp3, if we had a node for it:)')
                 }
             }
         }
         stage('build-new') {
             steps {
                 node('master') {
+                    checkout scm
                     sh('ls -la ; docker build ./ -t jenkins-rpmbuild')
                 }
             }
