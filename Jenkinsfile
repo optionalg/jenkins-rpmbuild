@@ -2,32 +2,32 @@ pipeline {
     agent none
 
     stages {
-        stage 'rm-old' {
+        stage('rm-old') {
             steps {
-                node 'master' {
-                    sh 'docker rmi jenkins-rpmbuild || true'
+                node('master') {
+                    sh('docker rmi jenkins-rpmbuild || true')
                 }
             }
         }
-        stage 'parallel-demo' {
+        stage('parallel-demo') {
             steps {
                 parallel sles12sp2: {
-                    node 'master' {
-                        sh 'pwd; ls -la'
+                    node('master') {
+                        sh('pwd; ls -la')
                     }
                 },
                 sles12sp3: {
-                    node 'master' {
-                        sh 'pwd; ls -la'
+                    node('master') {
+                        sh('pwd; ls -la')
                     }
                 }
             }
         }
-        stage 'build-new' {
+        stage('build-new') {
             steps {
-                node 'master' {
+                node('master') {
                     checkout scm
-                    sh 'ls -la ; docker build ./ -t jenkins-rpmbuild'
+                    sh('ls -la ; docker build ./ -t jenkins-rpmbuild')
                 }
             }
         }
